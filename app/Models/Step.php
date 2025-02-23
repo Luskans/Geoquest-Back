@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Step extends Model
 {
     protected $fillable = [
-        'game_id',
+        'riddle_id',
         'order_number',
         'qr_code',
         'latitude',
         'longitude'
     ];
 
-    public function game()
+    public function riddle()
     {
-        return $this->belongsTo(Game::class);
+        return $this->belongsTo(Riddle::class);
     }
 
     public function hints()

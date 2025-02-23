@@ -47,9 +47,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function createdGames()
+    public function createdRiddles()
     {
-        return $this->hasMany(Game::class, 'creator_id');
+        return $this->hasMany(Riddle::class, 'creator_id');
     }
 
     public function gameSessions()

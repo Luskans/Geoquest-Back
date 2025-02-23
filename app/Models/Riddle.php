@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Game extends Model
+class Riddle extends Model
 {
     protected $fillable = [
         'creator_id',

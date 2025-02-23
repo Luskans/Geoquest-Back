@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,15 @@ class AuthController extends Controller
         $validated = $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(12)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols(),
+            ],
         ]);
 
         $user = User::create([
@@ -50,10 +59,25 @@ class AuthController extends Controller
             'token' => $token
         ]);
     }
-
+   
     public function logout()
     {
         auth()->user()->tokens()->delete();
         return response()->json(['message' => 'Logged out']);
+    }
+    // O3
+    // public function logout(Request $request)
+    // {
+    //     // Supprime le token courant de l'utilisateur authentifié
+    //     $request->user()->currentAccessToken()->delete();
+
+    //     return response()->json([
+    //         'message' => 'Déconnecté avec succès'
+    //     ]);
+    // }
+
+    public function user(Request $request)
+    {
+        return response()->json($request->user());
     }
 }

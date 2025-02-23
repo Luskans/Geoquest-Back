@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->foreignId('riddle_id')->constrained()->onDelete('cascade');
             $table->integer('order_number');
             $table->string('qr_code');
             $table->decimal('latitude', 10, 8);

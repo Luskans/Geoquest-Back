@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('game_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->foreignId('riddle_id')->constrained()->onDelete('cascade');
             $table->foreignId('player_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['active', 'completed', 'abandoned'])->default('active');
             $table->timestamp('start_time');

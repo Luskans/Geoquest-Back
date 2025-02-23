@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GameSession extends Model
 {
     protected $fillable = [
-        'game_id',
+        'riddle_id',
         'player_id',
         'status',
         'start_time', 
@@ -20,9 +20,9 @@ class GameSession extends Model
         'end_time' => 'datetime',
     ];
 
-    public function game()
+    public function riddle()
     {
-        return $this->belongsTo(Game::class);
+        return $this->belongsTo(Riddle::class);
     }
 
     public function player()

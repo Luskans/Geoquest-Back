@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [
-        'game_id',
+        'riddle_id',
         'user_id',
         'content',
         'rating'
     ];
 
-    public function game()
+    public function riddle()
     {
-        return $this->belongsTo(Game::class);
+        return $this->belongsTo(Riddle::class);
     }
 
     public function user()
