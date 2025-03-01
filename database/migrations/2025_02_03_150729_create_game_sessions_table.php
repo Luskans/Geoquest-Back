@@ -18,7 +18,6 @@ return new class extends Migration
             $table->enum('status', ['active', 'completed', 'abandoned'])->default('active');
             $table->timestamp('start_time');
             $table->timestamp('end_time')->nullable();
-            $table->integer('score')->nullable();
             $table->timestamps();
         });
     }

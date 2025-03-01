@@ -57,8 +57,8 @@ class User extends Authenticatable
         return $this->hasMany(GameSession::class, 'player_id');
     }
 
-    public function comments()
+    public function reviews()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Review::class);
     }
 }

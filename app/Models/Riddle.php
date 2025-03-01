@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Riddle extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'creator_id',
         'title',
@@ -32,8 +35,8 @@ class Riddle extends Model
         return $this->hasMany(GameSession::class);
     }
 
-    public function comments()
+    public function reviews()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Review::class);
     }
 }

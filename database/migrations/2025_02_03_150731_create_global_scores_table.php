@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('global_scores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('riddle_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('content');
-            $table->integer('rating')->check('rating >= 1 AND rating <= 5');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->enum('period', ['week', 'month', 'all']);
+            $table->integer('score')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('global_scores');
     }
 };

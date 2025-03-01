@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GameSession extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'riddle_id',
         'player_id',
         'status',
         'start_time', 
         'end_time',
-        'score'
     ];
 
     protected $casts = [

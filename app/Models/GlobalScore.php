@@ -3,20 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Comment extends Model
+class GlobalScore extends Model
 {
-    protected $fillable = [
-        'riddle_id',
-        'user_id',
-        'content',
-        'rating'
-    ];
+    use HasFactory;
 
-    public function riddle()
-    {
-        return $this->belongsTo(Riddle::class);
-    }
+    protected $fillable = [
+        'user_id',
+        'period',
+        'score', 
+    ];
 
     public function user()
     {

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SessionStep extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'game_session_id',
         'step_id',

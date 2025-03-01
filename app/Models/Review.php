@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Step extends Model
+class Review extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
         'riddle_id',
-        'order_number',
-        'qr_code',
-        'latitude',
-        'longitude'
+        'user_id',
+        'content',
+        'rating'
     ];
 
     public function riddle()
@@ -22,13 +21,8 @@ class Step extends Model
         return $this->belongsTo(Riddle::class);
     }
 
-    public function hints()
+    public function user()
     {
-        return $this->hasMany(Hint::class);
-    }
-
-    public function sessionSteps()
-    {
-        return $this->hasMany(SessionStep::class);
+        return $this->belongsTo(User::class);
     }
 }
