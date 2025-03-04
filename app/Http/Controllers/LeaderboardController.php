@@ -2,24 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\ScoreServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class LeaderboardController extends Controller
 {
-    /**
-     * Affiche le classement général pour une période donnée (semaine, mois, total).
-     */
-    public function index(Request $request)
+    protected $scoreService;
+
+    public function __construct(ScoreServiceInterface $scoreService)
     {
-        // Idéalement, le paramètre 'period' est passé dans la requête.
-        // Retourner le top 5 (ou top N) et aussi la position de l'utilisateur dans ce classement.
+        $this->scoreService = $scoreService;
     }
-    
-    /**
-     * Affiche le classement pour une énigme donnée.
-     */
-    public function showByRiddle($riddleId)
+
+    public function index(Request $request): JsonResponse
     {
-        // Retourner le classement (score total de chaque joueur) pour l'énigme spécifiée.
+        $user = $request->user();
+        $period = $request->get('period', 'week');
+        $limit = $request->get('limit', 0);
+        $offset = $request->get('offset', 0);
+        
+        $ranking = $this->scoreService->getRankingByPeriod($period, $limit, $offset);
+        $userRanking = $this->scoreService->getUserRankByPeriod($period, $user->id);
+
+        return response()->json([
+            'ranking' => $ranking,
+            'userRanking' => $userRanking,
+        ], Response::HTTP_OK);
+    }
+
+    // public function index(Request $request): JsonResponse
+    // {
+    //     $user = $request->user();
+    //     $period = $request->get('period', 'week');
+    //     $limit = $request->get('limit') ? (int) $request->get('limit') : null;
+    //     $offset = (int) $request->get('offset', 0);
+    //     $searchName = $request->get('name');
+
+    //     if ($searchName) {
+    //         $ranking = $this->scoreService->getPlayerRankByPeriodAndName($period, $searchName);
+    //     } else {
+    //         $ranking = $this->scoreService->getRankingByPeriod($period, $limit, $offset);
+    //     }
+
+    //     // Récupérer notamment le rang de l'utilisateur
+    //     $userRanking = $this->scoreService->getUserRankByPeriod($period, $user->id);
+
+    //     return response()->json([
+    //         'ranking' => $ranking,
+    //         'userRanking' => $userRanking,
+    //     ], Response::HTTP_OK);
+    // }
+
+    public function showByRiddle($riddleId): JsonResponse
+    {
+        $leaderboard = DB::table('game_scores')
+            ->join('users', 'game_scores.player_id', '=', 'users.id')
+            ->select('game_scores.player_id', 'users.username', 'game_scores.score')
+            ->where('game_scores.riddle_id', $riddleId)
+            ->orderByDesc('game_scores.score')
+            ->get();
+        
+        return response()->json([
+            'riddle_id'   => $riddleId,
+            'leaderboard' => $leaderboard,
+        ], Response::HTTP_OK);
     }
 }

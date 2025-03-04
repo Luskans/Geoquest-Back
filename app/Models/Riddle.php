@@ -20,6 +20,17 @@ class Riddle extends Model
         'status'
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
