@@ -14,6 +14,7 @@ use App\Models\User;
 use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $sylvain = User::factory()->create([
             'name' => 'Sylvain',
             'email'    => 'sylvain@email.com',
-            'password' => 'sylvain',
+            'password' => Hash::make('sylvain'),
         ]);
 
         // Riddle public
@@ -145,26 +146,26 @@ class DatabaseSeeder extends Seeder
         $jean = User::factory()->create([
             'name' => 'Jean',
             'email'    => 'jean@email.com',
-            'password' => 'jean',
+            'password' => Hash::make('jean'),
         ]);
 
         // PIERRE with no score
         $pierre = User::factory()->create([
             'name' => 'Pierre',
             'email'    => 'pierre@email.com',
-            'password' => 'pierre',
+            'password' => Hash::make('pierre'),
             'email_verified_at' => null
         ]);
 
-        // Paul with unverified email
+        // PAUL with unverified email
         $paul = User::factory()->create([
             'name' => 'Paul',
             'email'    => 'paul@email.com',
-            'password' => 'paul',
+            'password' => Hash::make('paul'),
         ]);
         
         // Other random users
-        $otherUsers = User::factory(6)->create();
+        $otherUsers = User::factory(50)->create();
 
 
         // Reviews on sylvain's riddle1
@@ -210,11 +211,9 @@ class DatabaseSeeder extends Seeder
         $gameSession1 = GameSession::factory()->create([
             'riddle_id'  => $riddle1->id,
             'player_id'  => $jean->id,
-            'status'     => 'completed',
-            'start_time' => Carbon::now()->subMinutes(90),
-            'end_time'   => Carbon::now(),
+            'status'     => 'completed'
         ]);
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 1; $i <= $riddle1->steps()->count(); $i++) {
             SessionStep::factory()->create([
                 'game_session_id'  => $gameSession1->id,
                 'step_id'          => $i,
@@ -229,14 +228,12 @@ class DatabaseSeeder extends Seeder
         $gameSession2 = GameSession::factory()->create([
             'riddle_id'  => $riddle2->id,
             'player_id'  => $jean->id,
-            'status'     => 'active',
-            'start_time' => Carbon::now()->subMinutes(90),
-            'end_time'   => null,
+            'status'     => 'active'
         ]);
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 1; $i < 4; $i++) {
             SessionStep::factory()->create([
                 'game_session_id'  => $gameSession2->id,
-                'step_id'          => 7 + $i,
+                'step_id'          => $riddle1->steps()->count() + $i,
                 'hint_used_number' => rand(0, 2),
                 'status'           => 'completed',
                 'start_time'       => Carbon::now()->subMinutes(30)->addMinutes($i * 5),
@@ -245,7 +242,7 @@ class DatabaseSeeder extends Seeder
         }
         SessionStep::factory()->create([
             'game_session_id'  => $gameSession2->id,
-            'step_id'          => 11,
+            'step_id'          => $riddle1->steps()->count() + 3 + 1,
             'hint_used_number' => 1,
             'status'           => 'active',
             'start_time'       => Carbon::now()->subMinutes(30)->addMinutes($i * 5),

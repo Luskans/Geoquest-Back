@@ -32,6 +32,8 @@ class RiddleFactory extends Factory
             'difficulty'    => fake()->numberBetween(1, 5),
             'show_distance' => fake()->boolean,
             'status'        => fake()->randomElement(['draft', 'active', 'disabled']),
+            'latitude'     => fake()->latitude,
+            'longitude'    => fake()->longitude,
         ];
     }
 }

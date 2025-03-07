@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Interfaces\GameServiceInterface;
+use App\Models\GameSession;
 use Illuminate\Support\Facades\DB;
 
 
-class RiddleService implements GameServiceInterface
+class GameService implements GameServiceInterface
 {
     public function getParticipatedCount(int $userId)
     {
@@ -17,8 +18,16 @@ class RiddleService implements GameServiceInterface
 
     public function getActiveRiddle(int $userId)
     {
-        return DB::table('game_sessions')
+        // return GameSession::with('sessionSteps')
+        // ->where('player_id', $userId)
+        // ->where('status', 'active')
+        // ->orderBy('created_at', 'desc')
+        // ->first();
+
+        return GameSession::with(['sessionSteps', 'riddle.steps'])
             ->where('player_id', $userId)
-            ->where('status', 'active');
+            ->where('status', 'active')
+            ->orderByDesc('created_at')
+            ->first();
     }
 }

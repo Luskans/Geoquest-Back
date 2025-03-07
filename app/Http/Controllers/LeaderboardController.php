@@ -20,16 +20,29 @@ class LeaderboardController extends Controller
     public function index(Request $request): JsonResponse
     {
         $user = $request->user();
-        $period = $request->get('period', 'week');
-        $limit = $request->get('limit', 0);
+        // $period = $request->get('period', 'week');
+        $limit = $request->get('limit', 20);
         $offset = $request->get('offset', 0);
         
-        $ranking = $this->scoreService->getRankingByPeriod($period, $limit, $offset);
-        $userRanking = $this->scoreService->getUserRankByPeriod($period, $user->id);
+        // $ranking = $this->scoreService->getRankingByPeriod($period, $limit, $offset);
+        // $userRanking = $this->scoreService->getUserRankByPeriod($period, $user->id);
+        $ranking = $this->scoreService->getAggregateRanking($limit, $offset);
+        $userRank = $this->scoreService->getAggregateUserRank($user->id);
+
 
         return response()->json([
             'ranking' => $ranking,
-            'userRanking' => $userRanking,
+            'userRank' => $userRank,
+            // 'ranking' => [
+            //     'week' => $weeklyRanking,
+            //     'month' => $monthlyRanking,
+            //     'all' => $allRanking
+            // ],
+            // 'userRank' => [
+            //     'week' => $userWeeklyRanking,
+            //     'month' => $userMonthlyRanking,
+            //     'all' => $userAllRanking
+            // ]
         ], Response::HTTP_OK);
     }
 

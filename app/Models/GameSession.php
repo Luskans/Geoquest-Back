@@ -12,14 +12,7 @@ class GameSession extends Model
     protected $fillable = [
         'riddle_id',
         'player_id',
-        'status',
-        'start_time', 
-        'end_time',
-    ];
-
-    protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'status'
     ];
 
     public function riddle()
@@ -35,5 +28,15 @@ class GameSession extends Model
     public function sessionSteps()
     {
         return $this->hasMany(SessionStep::class);
+    }
+
+    public function getTotalDuration()
+    {
+        return $this->sessionSteps->reduce(function ($total, $step) {
+            if ($step->end_time && $step->start_time) {
+                return $total + (strtotime($step->end_time) - strtotime($step->start_time));
+            }
+            return $total;
+        }, 0);
     }
 }

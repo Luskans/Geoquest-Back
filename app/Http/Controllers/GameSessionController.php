@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\GameServiceInterface;
 use App\Models\GameSession;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class GameSessionController extends Controller
 {
+    protected $gameService;
+
+    public function __construct(GameServiceInterface $gameService)
+    {
+        $this->gameService = $gameService;
+    }
+
     /**
      * Affiche la liste des sessions de jeu de l'utilisateur authentifié.
      */
@@ -82,5 +91,18 @@ class GameSessionController extends Controller
         $gameSession->delete();
         
         return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Affiche les détails de la session de jeu active.
+     */
+    public function getActiveRiddle(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $activeGameSession = $this->gameService->getActiveRiddle($user->id);
+
+        return response()->json([
+            'gameSession' => $activeGameSession
+        ], Response::HTTP_OK);
     }
 }

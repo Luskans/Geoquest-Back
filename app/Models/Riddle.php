@@ -17,7 +17,9 @@ class Riddle extends Model
         'password',
         'difficulty',
         'show_distance',
-        'status'
+        'status',
+        'latitude',
+        'longitude'
     ];
 
     protected $hidden = [

@@ -22,8 +22,6 @@ class GameSessionFactory extends Factory
             'riddle_id'   => Riddle::factory(),
             'player_id'   => User::factory(),
             'status'      => fake()->randomElement(['active', 'completed', 'abandoned']),
-            'start_time'  => fake()->dateTimeBetween('-1 week', 'now'),
-            'end_time'    => fake()->optional()->dateTimeBetween('now', '+1 week'),
         ];
     }
 }

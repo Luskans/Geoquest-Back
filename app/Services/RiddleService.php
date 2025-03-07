@@ -14,4 +14,22 @@ class RiddleService implements RiddleServiceInterface
             ->where('creator_id', $userId)
             ->count();
     }
+
+    public function getCreatedRiddles($userId, $limit, $offset)
+    {
+        $query = DB::table('riddles')
+            ->select('id', 'title', 'is_private', 'status', 'created_at')
+            ->where('creator_id', $userId)
+            ->orderByDesc('created_at');
+
+        if (!is_null($limit)) {
+            $query->limit($limit);
+        }
+
+        if (!is_null($offset)) {
+            $query->offset($offset);
+        }
+
+        return $query->get();
+    }
 }

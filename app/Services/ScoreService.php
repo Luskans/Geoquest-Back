@@ -12,7 +12,7 @@ class ScoreService implements ScoreServiceInterface
     {
         $query = DB::table('global_scores')
             ->join('users', 'global_scores.user_id', '=', 'users.id')
-            ->select('users.username', 'users.image', 'global_scores.score')
+            ->select('users.name', 'users.image', 'global_scores.score')
             ->where('global_scores.period', '=', $period)
             ->orderByDesc('global_scores.score');
 
@@ -27,7 +27,7 @@ class ScoreService implements ScoreServiceInterface
         return $query->get();
     }
 
-    public function getUserRankByPeriod(string $period, int $userId)
+    public function getUserRankByPeriod(string $period, int $userId): array | null
     {
         $userScore = DB::table('global_scores')
             ->where('user_id', $userId)
@@ -46,6 +46,24 @@ class ScoreService implements ScoreServiceInterface
         return [
             'score' => $userScore,
             'rank' => $userRank,
+        ];
+    }
+
+    public function getAggregateRanking(?int $limit = null, ?int $offset = null): array
+    {
+        return [
+            'week'  => $this->getRankingByPeriod('week', $limit, $offset),
+            'month' => $this->getRankingByPeriod('month', $limit, $offset),
+            'all'   => $this->getRankingByPeriod('all', $limit, $offset),
+        ];
+    }
+
+    public function getAggregateUserRank(int $userId): array
+    {
+        return [
+            'week'  => $this->getUserRankByPeriod('week', $userId),
+            'month' => $this->getUserRankByPeriod('month', $userId),
+            'all'   => $this->getUserRankByPeriod('all', $userId),
         ];
     }
 

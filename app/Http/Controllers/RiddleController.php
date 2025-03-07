@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\RiddleServiceInterface;
 use App\Models\Riddle;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+
 
 class RiddleController extends Controller
 {
+    protected $riddleService;
+
+    public function __construct(RiddleServiceInterface $riddleService)
+    {
+        $this->riddleService = $riddleService;
+    }
+
     /**
      * Affiche la liste de toutes les énigmes.
      *
@@ -84,5 +94,17 @@ class RiddleController extends Controller
     {
         $riddle->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function getCreatedRiddles(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $limit = $request->get('limit', 20);
+        $offset = $request->get('offset', 0);
+        $createdRiddles = $this->riddleService->getCreatedRiddles($user->id, $limit, $offset);
+
+        return response()->json([
+            'riddles' => $createdRiddles
+        ], Response::HTTP_OK);
     }
 }
