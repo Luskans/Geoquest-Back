@@ -107,4 +107,15 @@ class RiddleController extends Controller
             'riddles' => $createdRiddles
         ], Response::HTTP_OK);
     }
+
+    public function getCreatedRiddle(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $id = $request->get('id');
+        $createdRiddle = $this->riddleService->getCreatedRiddle($id);
+
+        return response()->json([
+            'riddle' => $createdRiddle
+        ], Response::HTTP_OK);
+    }
 }
