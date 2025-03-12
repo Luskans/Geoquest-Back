@@ -19,9 +19,10 @@ class GameSessionFactory extends Factory
     public function definition(): array
     {
         return [
-            'riddle_id'   => Riddle::factory(),
-            'player_id'   => User::factory(),
-            'status'      => fake()->randomElement(['active', 'completed', 'abandoned']),
+            'riddle_id' => Riddle::factory(),
+            'player_id' => User::factory(),
+            'status' => fake()->randomElement(['active', 'completed', 'abandoned']),
+            'score' => fake()->numberBetween(0, 100),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\RiddleServiceInterface;
+use App\Models\Riddle;
 use Illuminate\Support\Facades\DB;
 
 
@@ -15,7 +16,7 @@ class RiddleService implements RiddleServiceInterface
             ->count();
     }
 
-    public function getCreatedRiddles($userId, $limit, $offset)
+    public function getCreatedList($userId, $limit, $offset)
     {
         $query = DB::table('riddles')
             ->select('id', 'title', 'is_private', 'status', 'created_at')
@@ -31,5 +32,14 @@ class RiddleService implements RiddleServiceInterface
         }
 
         return $query->get();
+    }
+
+    public function getRiddleDetail($id)
+    {
+        return Riddle::with([
+            'steps.hints',
+            'reviews',
+            'gameSession'
+        ])->find($id);
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('riddle_id')->constrained()->onDelete('cascade');
             $table->foreignId('player_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['active', 'completed', 'abandoned'])->default('active');
+            $table->integer('score')->default(0);
             $table->timestamps();
         });
     }

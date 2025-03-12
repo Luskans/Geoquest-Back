@@ -12,7 +12,8 @@ class GameSession extends Model
     protected $fillable = [
         'riddle_id',
         'player_id',
-        'status'
+        'status',
+        'score'
     ];
 
     public function riddle()

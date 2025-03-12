@@ -59,7 +59,9 @@ class RiddleController extends Controller
      */
     public function show(Riddle $riddle)
     {
-        return response()->json($riddle, Response::HTTP_OK);
+        // return response()->json($riddle, Response::HTTP_OK);
+        $riddle->load(['steps.hints', 'reviews', 'gameSessions']);
+        return response()->json(['riddle' => $riddle], Response::HTTP_OK);
     }
 
     /**
@@ -101,21 +103,21 @@ class RiddleController extends Controller
         $user = $request->user();
         $limit = $request->get('limit', 20);
         $offset = $request->get('offset', 0);
-        $createdRiddles = $this->riddleService->getCreatedRiddles($user->id, $limit, $offset);
+        $createdList = $this->riddleService->getCreatedList($user->id, $limit, $offset);
 
         return response()->json([
-            'riddles' => $createdRiddles
+            'riddles' => $createdList
         ], Response::HTTP_OK);
     }
 
-    public function getCreatedRiddle(Request $request): JsonResponse
+    public function getRiddleDetail(Request $request): JsonResponse
     {
         $user = $request->user();
         $id = $request->get('id');
-        $createdRiddle = $this->riddleService->getCreatedRiddle($id);
+        $createdDetail = $this->riddleService->getRiddleDetail($id);
 
         return response()->json([
-            'riddle' => $createdRiddle
+            'riddle' => $createdDetail
         ], Response::HTTP_OK);
     }
 }

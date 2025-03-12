@@ -248,13 +248,5 @@ class DatabaseSeeder extends Seeder
             'start_time'       => Carbon::now()->subMinutes(30)->addMinutes($i * 5),
             'end_time'         => null
         ]);
-
-
-        // GameScores de Jean
-        GameScore::factory()->create([
-            'riddle_id' => $riddle1->id,
-            'player_id' => $jean->id,
-            'score'     => rand(10, 100),
-        ]);
     }
 }
