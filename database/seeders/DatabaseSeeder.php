@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
         // SYLVAIN with differents riddles
         $sylvain = User::factory()->create([
             'name' => 'Sylvain',
-            'email'    => 'sylvain@email.com',
-            'password' => Hash::make('sylvain'),
+            'email'    => 'a@a',
+            'password' => Hash::make('a'),
         ]);
 
         // Riddle public
