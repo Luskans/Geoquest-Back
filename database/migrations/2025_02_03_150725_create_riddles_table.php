@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('riddles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('creator_id')->constrained('users');
             $table->string('title');
             $table->text('description');
             $table->boolean('is_private')->default(false);
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('status', ['draft', 'active', 'disabled'])->default('draft');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
