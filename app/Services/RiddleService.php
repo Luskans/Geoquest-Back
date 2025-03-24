@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class RiddleService implements RiddleServiceInterface
 {
+    public function getRiddleList($limit, $offset)
+    {
+        
+    }
+
     public function getCreatedCount($userId)
     {
         return DB::table('riddles')

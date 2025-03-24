@@ -18,8 +18,6 @@ return new class extends Migration
             $table->text('description');
             $table->boolean('is_private')->default(false);
             $table->string('password')->nullable();
-            $table->integer('difficulty');
-            $table->boolean('show_distance')->default(false);
             $table->enum('status', ['draft', 'active', 'disabled'])->default('draft');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);

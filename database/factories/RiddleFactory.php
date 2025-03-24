@@ -29,8 +29,6 @@ class RiddleFactory extends Factory
             'description'   => fake()->paragraph,
             'is_private'    => fake()->boolean,
             'password'      => static::$password ??= Hash::make('password'),
-            'difficulty'    => fake()->numberBetween(1, 5),
-            'show_distance' => fake()->boolean,
             'status'        => fake()->randomElement(['draft', 'active', 'disabled']),
             'latitude'     => fake()->latitude,
             'longitude'    => fake()->longitude,

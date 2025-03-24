@@ -16,8 +16,6 @@ class Riddle extends Model
         'description',
         'is_private', 
         'password',
-        'difficulty',
-        'show_distance',
         'status',
         'latitude',
         'longitude'
