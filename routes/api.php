@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Riddles
     Route::apiResource('riddles', RiddleController::class);
-    Route::get('/riddles/created/list', [RiddleController::class, 'getCreatedRiddles']);
+    Route::get('/riddles/created/list', [RiddleController::class, 'getCreatedList']);
     // Route::get('/riddles/{riddleId}', [RiddleController::class, 'getRiddleDetail']);
     
     // Etapes imbriquées dans les riddles

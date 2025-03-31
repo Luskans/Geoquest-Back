@@ -20,9 +20,10 @@ class ReviewFactory extends Factory
     {
         return [
             'riddle_id' => Riddle::factory(),
-            'user_id'   => User::factory(),
-            'content'   => fake()->sentences(3, true),
-            'rating'    => fake()->numberBetween(1, 5),
+            'user_id' => User::factory(),
+            'content' => fake()->sentences(3, true),
+            'rating' => fake()->numberBetween(1, 5),
+            'difficulty' => fake()->numberBetween(1, 5),
         ];
     }
 }

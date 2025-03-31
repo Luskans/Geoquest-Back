@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('content');
             $table->integer('rating')->check('rating >= 1 AND rating <= 5');
+            $table->integer('difficulty')->check('difficulty >= 1 AND difficulty <= 5');
             $table->timestamps();
         });
     }

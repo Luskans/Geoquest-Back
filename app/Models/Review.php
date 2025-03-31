@@ -13,7 +13,8 @@ class Review extends Model
         'riddle_id',
         'user_id',
         'content',
-        'rating'
+        'rating',
+        'difficulty'
     ];
 
     public function riddle()
