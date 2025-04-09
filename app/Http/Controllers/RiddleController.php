@@ -56,6 +56,7 @@ class RiddleController extends Controller
 
     public function show(Request $request, Riddle $riddle)
     {
+        // if (Auth::id() !== $riddle->creator_id) {
         if ($request->user()->id !== $riddle->creator_id) {
             unset($riddle->password);
             $riddle->password = null;
@@ -68,6 +69,7 @@ class RiddleController extends Controller
 
     public function update(Request $request, Riddle $riddle)
     {
+        // TODO : ajouter vérif que connecté = créateur
         $validated = $request->validate([
             'title'         => 'sometimes|required|string',
             'description'   => 'sometimes|required|string',
@@ -83,12 +85,14 @@ class RiddleController extends Controller
 
     public function destroy(Riddle $riddle)
     {
+        // TODO : ajouter vérif que connecté = créateur
         $riddle->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
     public function getCreatedList(Request $request): JsonResponse
     {
+        // TODO : ajouter vérif que connecté = créateur
         $user = $request->user();
         $limit = $request->get('limit', 20);
         $offset = $request->get('offset', 0);
@@ -107,29 +111,4 @@ class RiddleController extends Controller
             'riddles' => $riddles
         ], Response::HTTP_OK);
     }
-
-
-
-    // public function getCreatedRiddles(Request $request): JsonResponse
-    // {
-    //     $user = $request->user();
-    //     $limit = $request->get('limit', 20);
-    //     $offset = $request->get('offset', 0);
-    //     $createdList = $this->riddleService->getCreatedList($user->id, $limit, $offset);
-
-    //     return response()->json([
-    //         'riddles' => $createdList
-    //     ], Response::HTTP_OK);
-    // }
-
-    // public function getRiddleDetail(Request $request): JsonResponse
-    // {
-    //     $user = $request->user();
-    //     $id = $request->get('id');
-    //     $createdDetail = $this->riddleService->getRiddleDetail($id);
-
-    //     return response()->json([
-    //         'riddle' => $createdDetail
-    //     ], Response::HTTP_OK);
-    // }
 }
